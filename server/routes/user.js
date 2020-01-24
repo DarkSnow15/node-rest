@@ -11,9 +11,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
  
-app.get('/', function (req, res) {
-    res.json('Hello World')
-});
 
 app.get('/usuario', verificaToken, function (req, res) {
     
