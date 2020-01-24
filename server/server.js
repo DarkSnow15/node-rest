@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
-app.use(require('./routes/user'));
+app.use(require('./routes/index'));
 
 mongoose.connect(process.env.URLDB, {
      useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true

@@ -5,6 +5,7 @@ const _ = require('underscore');
 const bodyParser = require('body-parser');
 const User = require('../models/user');
 
+const { verificaToken, verificaRole } = require('../middlewares/autenticacion');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -14,10 +15,17 @@ app.get('/', function (req, res) {
     res.json('Hello World')
 });
 
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken, function (req, res) {
+    
+    // return res.json({
+    //     usuario: req.usuario,
+    //     nombre: req.usuario.nombre,
+    //     email: req.usuario.email,
+    // })
+
     let desde = req.query.desde || 0;
     desde = Number(desde);
-    let limite = req.query.limite || 5
+    let limite = req.query.limite || 0
     limite = Number(limite);
     User.find({estado: true}, 'nombre email role estado google img')
         .skip(desde)
@@ -39,7 +47,7 @@ app.get('/usuario', function (req, res) {
         })
 });
  
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [verificaToken, verificaRole], function (req, res) {
     let body = req.body;
 
     let user = new User({
@@ -67,7 +75,7 @@ app.post('/usuario', function (req, res) {
     
 });
 
-app.put('/usuario/:id', function (req, res) {
+app.put('/usuario/:id', [verificaToken, verificaRole], function (req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre','email','img','role','estado']);
     
@@ -88,7 +96,7 @@ app.put('/usuario/:id', function (req, res) {
     });
 });
 
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaRole], function (req, res) {
     let id = req.params.id;
     let cambiaEstado = {
         estado: false
