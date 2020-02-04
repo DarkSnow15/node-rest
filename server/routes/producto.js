@@ -116,13 +116,13 @@ app.put('/producto/:id', verificaToken, (req, res) => {
                 return res.status(500).json({
                     ok: false,
                     err
-                })
+                });
             }
 
             res.json({
                 ok: true,
                 producto
-            })
+            });
         });
         
     });
