@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const path = require('path');
 
-app.put('/upload/:tipo/:id', (req, res)=>{
+app.put('/uploads/:tipo/:id', (req, res)=>{
     let tipo = req.params.tipo;
     let id = req.params.id;
 
@@ -54,7 +54,7 @@ app.put('/upload/:tipo/:id', (req, res)=>{
                 err
             });
         
-        if(tipo === 'usuario'){
+        if(tipo === 'users'){
             imagenUsuario(id, res, nombreArchivo);
         }else{
             imagenProducto(id, res, nombreArchivo);
